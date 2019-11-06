@@ -2,11 +2,11 @@
 import React from 'react';
 
 import { Call, DateFormat, UUID } from 'basic-helper';
+import { LoadScript } from '../utils';
 
 import { DateBasic, DateBasicProps } from '../date-basic';
 import { Icon } from '../icon';
 import { PopoverEntity } from '../popover/popover-entity';
-import { LoadScript } from '../utils';
 import Mandarin from './zh';
 
 let flatpickrCDNUrl = 'https://cdn.jsdelivr.net/npm/flatpickr@4.6.3/dist/flatpickr.min.js';
@@ -44,7 +44,6 @@ const loadJSFormCDN = () => {
 };
 
 export interface DatetimePickerProps extends DateBasicProps {
-  onChange: (changeVal) => void;
   /** 默认的时分秒的值 */
   defaultTimes?: string[];
   /** 日期控件类型 */
@@ -57,8 +56,8 @@ export interface DatetimePickerProps extends DateBasicProps {
   didMount?: () => void;
   /** 默认值 */
   defaultValue?: string[];
-  /** 受控控件的值 */
-  value?: string[];
+  // /** 受控控件的值 */
+  // value?: string[];
 }
 
 interface DefaultProps {
@@ -103,7 +102,7 @@ export default class DatetimePicker extends DateBasic<DatetimePickerProps> {
 
   value;
 
-  popTipEntity: PopoverEntity
+  popTipEntity!: PopoverEntity
 
   _id: string = UUID();
 
@@ -115,10 +114,6 @@ export default class DatetimePicker extends DateBasic<DatetimePickerProps> {
 
     const defaultVal = value || defaultValue;
     this.value = defaultVal;
-
-    this.popTipEntity = new PopoverEntity({
-      id: this._id,
-    });
   }
 
   componentDidMount() {
@@ -129,33 +124,49 @@ export default class DatetimePicker extends DateBasic<DatetimePickerProps> {
     Call(this.props.didMount, this.value);
   }
 
-  componentDidUpdate(prevProps) {
-    if (JSON.stringify(this.props.value) !== JSON.stringify(prevProps.value)) {
-      this.datepicker.setDate(this.props.value, false);
+  // componentDidUpdate(prevProps) {
+  //   if (JSON.stringify(this.props.value) !== JSON.stringify(prevProps.value)) {
+  //     this.datepicker.setDate(this.props.value, false);
+  //   }
+  // }
+
+  setDate = (nextValue, tiggerChange = true) => {
+    this.datepicker.setDate(nextValue);
+    if (tiggerChange) {
+      this.changeDate(nextValue);
     }
   }
 
   componentWillUnmount() {
     if (this.datepicker) this.datepicker.destroy();
-    this.popTipEntity.destroy();
+    if (this.popTipEntity) this.popTipEntity.destroy();
     this._id = '';
   }
 
   handleInputError = (inputElem, isError) => {
     inputElem.classList.toggle('error', isError);
-    isError ? this.popTipEntity.show({
-      elem: inputElem,
-      props: {
-        type: 'red',
-        position: 'bottom',
-        // showCloseBtn: false,
-      },
-      children: (
-        <div className="p10">
-          输入时间有误，请检查
-        </div>
-      )
-    }) : this.popTipEntity.close();
+    if (!this.popTipEntity) {
+      this.popTipEntity = new PopoverEntity({
+        id: this._id,
+      });
+    }
+    if (isError) {
+      this.popTipEntity.show({
+        elem: inputElem,
+        props: {
+          type: 'red',
+          position: 'bottom',
+          // showCloseBtn: false,
+        },
+        children: (
+          <div className="p10">
+            输入时间有误，请检查
+          </div>
+        )
+      });
+    } else {
+      this.popTipEntity.close();
+    }
   }
 
   getInputValAsync = () => new Promise<Date[] | null>((resolve) => {
@@ -174,7 +185,7 @@ export default class DatetimePicker extends DateBasic<DatetimePickerProps> {
     /** 如果没有任何值，则没有下一步 */
     if (!inputVal) return null;
 
-    const valueRange = inputVal.split(rangeSeparator).filter(i => !!i);
+    const valueRange = inputVal.split(rangeSeparator).filter((i) => !!i);
     let valueRangeLen = valueRange.length;
     if (isRange && needTime && valueRangeLen === 1) {
       /**
@@ -224,9 +235,10 @@ export default class DatetimePicker extends DateBasic<DatetimePickerProps> {
     if (!window.flatpickr) return console.error(`加载 flatpickr 失败`);
     window.flatpickr.l10ns.zh = Mandarin;
     const {
-      mode, needTime, lang, allowInput,
+      mode, needTime, lang, allowInput, value, defaultValue,
+      onChange,
       // enableTime,
-      defaultTimes, onChange, ...others
+      defaultTimes, ...others
     } = this.props;
 
     const flatpickrOptions = {
@@ -243,9 +255,7 @@ export default class DatetimePicker extends DateBasic<DatetimePickerProps> {
       mode,
       // wrap: true,
       allowInput,
-      // onChange: (rangeValues, dateStr, instance) => {
       onClose: this.handleChange
-      // onChange: this.handleChange
     };
 
     this.datepicker = window.flatpickr(this._refs[this._id], flatpickrOptions);
@@ -260,19 +270,22 @@ export default class DatetimePicker extends DateBasic<DatetimePickerProps> {
   }
 
   render() {
+    const { needTime, mode } = this.props;
     return (
-      <div className="flatpickr input-group">
-        <span className="input-addon"
-          onClick={(e) => {
-            if (this.datepicker) this.datepicker.toggle();
-          }}>
-          <Icon n="date"/>
-        </span>
-        <input
-          type="text"
-          className="form-control input-sm"
-          id={this._id}
-          ref={(e) => { this._refs[this._id] = e; }}/>
+      <div className={`__flatpickr input-control ${needTime ? 'long' : ''} ${mode}`}>
+        <div className="input-group">
+          <span className="input-addon"
+            onClick={(e) => {
+              if (this.datepicker) this.datepicker.toggle();
+            }}>
+            <Icon n="date"/>
+          </span>
+          <input
+            type="text"
+            className="form-control input-sm"
+            id={this._id}
+            ref={(e) => { this._refs[this._id] = e; }}/>
+        </div>
       </div>
     );
   }

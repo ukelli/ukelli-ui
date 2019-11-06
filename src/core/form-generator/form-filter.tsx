@@ -51,7 +51,7 @@ export interface FormFilterProps<_FormOptions = FormOptions> {
   onChange?: FormChangeEvent;
 }
 
-const wrapInputSelectorMarkForRefu = activeRef => `__isActive${activeRef}`;
+const wrapInputSelectorMarkForRefu = (activeRef) => `__isActive${activeRef}`;
 
 /**
  * 表单生成器
@@ -179,9 +179,7 @@ export default class FormFilterHelper<P extends FormFilterProps> extends UkeComp
   }
 
   _requiredMapperSetter = (ref, title) => {
-    this.requiredRefMapper = Object.assign({}, this.requiredRefMapper, {
-      [ref]: title
-    });
+    this.requiredRefMapper = { ...this.requiredRefMapper, [ref]: title };
   }
 
   setDefaultValues(options) {
@@ -313,7 +311,9 @@ export default class FormFilterHelper<P extends FormFilterProps> extends UkeComp
     return HasValue(targetVal) ? targetVal : otherwise;
   }
 
-  saveRef = ref => (elem) => { this._refs[ref] = elem; }
+  saveRef = (ref) => (elem) => { this._refs[ref] = elem; }
+
+  getRef = (ref) => this._refs[ref]
 
   loadPlugin = (Plugin, props) => {
     let P = IsFunc(Plugin) ? <Plugin /> : Plugin;
@@ -324,7 +324,7 @@ export default class FormFilterHelper<P extends FormFilterProps> extends UkeComp
   }
 
   /** 获取 refs 的 ID */
-  getRefsID = refs => (Array.isArray(refs) ? refs.join('-') : '')
+  getRefsID = (refs) => (Array.isArray(refs) ? refs.join('-') : '')
 
   /**
    * 表单插件接口
@@ -344,7 +344,7 @@ export default class FormFilterHelper<P extends FormFilterProps> extends UkeComp
     return this.loadPlugin(component, {
       ...other,
       ...cusProps,
-      onChange: val => this.changeValue(val, ref),
+      onChange: (val) => this.changeValue(val, ref),
       // ref: this.saveRef(ref)
     });
   }
@@ -356,7 +356,7 @@ export default class FormFilterHelper<P extends FormFilterProps> extends UkeComp
         {...other}
         value={this.getValue(ref, '')}
         ref={this.saveRef('CaptchaCode')}
-        onCaptchaLoad={captchKey => this.changeValue(captchKey, keyRef)}
+        onCaptchaLoad={(captchKey) => this.changeValue(captchKey, keyRef)}
         onChange={(captchaConfig) => {
           this.changeValue(captchaConfig.value, ref);
         }}/>
@@ -505,7 +505,7 @@ export default class FormFilterHelper<P extends FormFilterProps> extends UkeComp
         className="form-control"
         ref={this.saveRef(ref)}
         id={ref}
-        onChange={e => this.changeValue(e.target.value, ref)} />
+        onChange={(e) => this.changeValue(e.target.value, ref)} />
     );
   }
 
@@ -516,7 +516,7 @@ export default class FormFilterHelper<P extends FormFilterProps> extends UkeComp
         {...other}
         ref={this.saveRef(ref)}
         value={this.getValue(ref)}
-        onChange={val => this.changeValue(val, ref)}/>
+        onChange={(val) => this.changeValue(val, ref)}/>
     );
   }
 
@@ -531,7 +531,7 @@ export default class FormFilterHelper<P extends FormFilterProps> extends UkeComp
     );
   }
 
-  radioFactory = Comp => (config) => {
+  radioFactory = (Comp) => (config) => {
     const { ref, refs, ...other } = config;
     return (
       <Comp
@@ -556,7 +556,7 @@ export default class FormFilterHelper<P extends FormFilterProps> extends UkeComp
       <span
         className={`btn flat ${className}`}
         ref={this.saveRef(ref)}
-        onClick={e => Call(onClick, e, ref)}>
+        onClick={(e) => Call(onClick, e, ref)}>
         {text}
       </span>
     );
@@ -575,50 +575,75 @@ export default class FormFilterHelper<P extends FormFilterProps> extends UkeComp
         }}/>
     );
   }
-
-  changeDateValues = (vals, refs) => {
+  
+  changeDateRangeValues = (vals, refs) => {
     const [refS, refE] = refs;
-    const datetimeRangeRef = this.getRefsID(refs);
-    if (vals.length === 0) {
-      this.value[datetimeRangeRef] = null;
-    } else {
-      this.value[datetimeRangeRef] = vals;
+    // const datetimeRangeRef = getRefsID(refs);
+    if (!Array.isArray(vals)) {
+      // 如果不是数组，则封装成数组
+      vals = [vals];
     }
+    // if (vals.length === 0) {
+    //   // 如果是 []，则清空值
+    //   this.value[datetimeRangeRef] = null;
+    // } else {
+    //   this.value[datetimeRangeRef] = vals;
+    // }
     const nextValue = {
       [refS]: vals[0],
-      [refE]: vals[1],
+      [refE]: vals[1] || vals[0], // 如果只有一个值，则把第一个个值赋给 ref end
       // [datetimeRangeRef]: [...vals]
     };
-    this.value[datetimeRangeRef] = vals;
+    // this.value[datetimeRangeRef] = vals;
     this.changeValues(nextValue);
   }
 
+  // changeDateRangeValues = (vals, refs) => {
+  //   const [refS, refE] = refs;
+  //   const datetimeRangeRef = this.getRefsID(refs);
+  //   if (vals.length === 0) {
+  //     this.value[datetimeRangeRef] = null;
+  //   } else {
+  //     this.value[datetimeRangeRef] = vals;
+  //   }
+  //   const nextValue = {
+  //     [refS]: vals[0],
+  //     [refE]: vals[1],
+  //     // [datetimeRangeRef]: [...vals]
+  //   };
+  //   this.value[datetimeRangeRef] = vals;
+  //   this.changeValues(nextValue);
+  // }
+
   getDatetimeRange = (config) => {
     const {
-      ref, range, refs, ...other
+      ref, range, mode, refs, ...other
     } = config;
     // let [refS, refE] = refs;
     const datetimeRangeRef = this.getRefsID(refs);
 
     return (
       <div className="datepicker-ranger-content">
-        {/* <span className="title">{this.$T_UKE('范围')}</span> */}
+        {/* <span className="title">{this.$T_IN('范围')}</span> */}
         <DatetimePicker
           mode="range"
           {...other}
-          // ref={e => this._refs[datetimeRangeRef] = e}
           ref={this.saveRef(datetimeRangeRef)}
           id={datetimeRangeRef}
           defaultValue={range}
-          value={this.value[datetimeRangeRef]}
-          onChange={val => this.changeDateValues(val, refs)}/>
+          // value={this.value[datetimeRangeRef]}
+          onChange={(val) => {
+            this.changeDateRangeValues(val, refs);
+          }}/>
         {
           !config.noHelper && (
             <DateShortcut
               {...other}
               position="right"
               onChange={(val) => {
-                this.changeDateValues(val, refs);
+                // 点击更改 DatetimePicker 中的值
+                this.getRef(datetimeRangeRef).setDate(val);
+                // this.changeDateRangeValues(val, refs);
               }}/>
           )
         }
@@ -632,7 +657,7 @@ export default class FormFilterHelper<P extends FormFilterProps> extends UkeComp
       <Switch ref={this.saveRef(ref)} {...other}
         checked={this.getValue(ref)}
         defaultChecked={defaultValue}
-        onChange={val => this.changeValue(val, ref)} />
+        onChange={(val) => this.changeValue(val, ref)} />
     );
   }
 
