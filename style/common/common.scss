@@ -1,0 +1,127 @@
+// * {
+// }
+body {
+  margin: 0;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif, "Microsoft YaHei", "微软雅黑";
+}
+
+.section-mark {
+  @include fill();
+  background-color: transparent;
+  transition: background-color 0.1s ease-out;
+}
+
+.hidden,.hide {
+  display: none !important;
+}
+
+.fixbg {
+  @include fixbg();
+}
+
+.text-center {
+  text-align: center;
+}
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
+.relative {
+  position: relative;
+}
+
+.hide-container {
+  position: relative;
+  display: inline-block;
+  padding: 5px 10px;
+  .hide-content {
+    display: none;
+    position: absolute;
+    top: 0;
+    // left: 100%;
+    z-index: 2;
+    padding: 0 !important;
+  }
+  &:hover,&.active {
+    .hide-content {
+      display: block;
+    }
+  }
+}
+
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed !important;
+}
+
+.block {
+  width: 100%;
+}
+
+.divid {
+  display: block;
+  background-color: #EEE;
+  height: 1px;
+  margin: 3px 0;
+  width: 100%
+}
+
+.__hide-container {
+  position: relative;
+  display: block;
+  padding: 0;
+  .caret {
+    position: absolute;
+    top: -4px;
+  }
+  .display-elem {
+    display: inline-block;
+    padding: 5px 10px;
+    cursor: default;
+  }
+  .hide-content {
+    width: 100%;
+    background-color: #fff;
+    padding: 10px;
+    box-shadow: 0 12px 36px rgba(#000, 0.3);
+    position: absolute;
+    overflow: auto;
+    display: none;
+    z-index: 20;
+    min-width: 200px;
+  }
+  &.left {
+    .hide-content {
+      right: 0;
+    }
+  }
+  &:hover,
+  &.active {
+    .hide-content {
+      display: block;
+    }
+  }
+}
+.nomargin {
+  margin: 0;
+}
+
+.fill {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+}
+
+
+html{font-size:10px}
+@media screen and (min-width:321px) and (max-width:375px){html{font-size:11px}}
+@media screen and (min-width:376px) and (max-width:414px){html{font-size:12px}}
+@media screen and (min-width:415px) and (max-width:639px){html{font-size:15px}}
+@media screen and (min-width:640px) and (max-width:719px){html{font-size:20px}}
+@media screen and (min-width:720px) and (max-width:749px){html{font-size:22.5px}}
+@media screen and (min-width:750px) and (max-width:799px){html{font-size:23.5px}}
+@media screen and (min-width:800px){html{font-size:25px}}

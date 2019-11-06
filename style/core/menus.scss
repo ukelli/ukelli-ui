@@ -1,0 +1,21 @@
+.__menus {
+  background-color: #FFF;
+  display: inline-block;
+  min-width: 180px;
+  width: 100%;
+  padding: 8px;
+  .menu-item {
+    padding: 10px 15px;
+    // border-bottom: 1px solid #EEE;
+    cursor: pointer;
+    .icon {
+      margin-right: 6px;
+    }
+    &:hover {
+      background-color: rgba(#000, 0.02);
+    }
+    &:active {
+      background-color: rgba(#000, 0.05);
+    }
+  }
+}

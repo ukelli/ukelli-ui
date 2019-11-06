@@ -1,0 +1,68 @@
+/*
+ * color config
+ */
+ 
+// blue
+$blue: #376BFB;
+
+// light-blue
+$light-blue: #0a8cff;
+
+// red
+$red: #FC4173;
+// $red-2: #c42c94;
+
+// green
+$green: #08c36e;
+
+// purple
+$purple: #a700fd;
+
+// cyan
+$cyan: #21e7da;
+
+// yellow
+$yellow: #ffec3d;
+
+// gold
+// $gold: #ffc53d;
+
+// orange
+$orange: #FDA929;
+
+// white
+$white: #FFF;
+
+// gray
+$gray: #d9d9d9;
+$gray-2: #EEE;
+
+// black
+$black: #000;
+
+// set theme color
+$themeColor: $blue;
+
+// status color
+$importantColor: $blue;
+$infoColor: $blue;
+$warnColor: $orange;
+$dangerColor: $red;
+$warmColor: $orange;
+$errorColor: $red;
+$successColor: $green;
+
+// Table
+$tableHeaderBgColor: #FFF;
+$tableHeaderTextColor: #444;
+$tableBodyBgColor: #FFF;
+$tableBodyTextColor: #777;
+
+// Scroll bar
+$lightThemeScrollThumb: rgba(#777, 0.5);
+$lightThemeScrollThumbHover: #666;
+$lightThemeScrollThumbActive: #444;
+
+// $themeColor: $blue;
+
+@import './color-level.scss'

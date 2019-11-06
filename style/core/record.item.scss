@@ -1,0 +1,48 @@
+// @import "../var.scss";
+
+.record-items {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  // justify-content: space-between;
+  @include card();
+  min-height: 100px;
+  .item {
+    flex-basis: 32%;
+    margin: 0 1% 1% 0;
+    border: 1px solid #f3f3f3;
+    background-color: #fafafa;
+    padding: 10px;
+    line-height: 22px;
+    border-radius: 3px;
+    min-width: 250px;
+    transition: all ease 0.3s;
+    position: relative;
+    .link-btn {
+      color: $orange;
+      border: 1px solid $orange;
+      padding: 0 10px;
+      border-radius: 3px;
+      // display: inline-block;
+      &:hover {
+        color: $red;
+        border-color: $red;
+      }
+    }
+    &:hover {
+      // border-color: $orange;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+      z-index: 1;
+    }
+    .title {
+      width: 100px;
+      color: #666;
+    }
+    .content {
+      color: #71a3b8;
+    }
+    .content, .title {
+      display: inline-block;
+    }
+  }
+}

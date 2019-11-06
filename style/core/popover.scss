@@ -1,0 +1,78 @@
+@import '../color/color-mixin.scss';
+
+$verticalOffset: 12px;
+$horizontalOffset: 8px;
+$caretScale: 8px;
+
+.__popover {
+  position: fixed;
+  z-index: 1122;
+  background-color: #FFF;
+  min-width: 60px;
+  min-height: 30px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
+  transition: opacity 0.2s ease;
+  outline: none;
+  border-radius: 3px;
+  // @include bgColor;
+  @include popbg();
+  &.has-close {
+    padding-right: 20px;
+  }
+  &.white {
+    background-color: #FFF;
+    color: inherit;
+  }
+  &.fixed {
+    position: fixed;
+  }
+  &.top {
+    .caret {
+      bottom: -$caretScale;
+      // left: ;
+      transform: translateX($horizontalOffset);
+    }
+  }
+  &.right {
+    .caret {
+      left: - $horizontalOffset * 1.5;
+      top: $verticalOffset;
+      transform: rotate(90deg);
+    }
+  }
+  &.bottom {
+    .caret {
+      top: -$caretScale;
+      // left: 48%;
+      transform: rotate(-180deg) translateX(-$horizontalOffset);
+    }
+  }
+  &.left {
+    .caret {
+      right: - $horizontalOffset * 1.5;
+      top: $verticalOffset;
+      transform: rotate(-90deg);
+    }
+  }
+  .caret {
+    position: absolute;
+    color: #FFF;
+    border-width: $caretScale;
+    transition: none;
+  }
+  ._close-btn {
+    position: absolute;
+    border-radius: 0;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    // bottom: 0;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    &:hover {
+      color: $themeColor;
+    }
+  }
+}

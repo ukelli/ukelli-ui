@@ -1,0 +1,128 @@
+// @import "../var.scss";
+$rangerBgH: 4px;
+$rangerContentH: 26px;
+$rangerHandleScale: 20px;
+
+.__ranger {
+  position: relative;
+  min-width: 100px;
+  flex: 1;
+  // width: 70%;
+  // max-width: 600px;
+  display: flex;
+  align-items: center;
+  &.with-input {
+    .ranger {
+      margin-right: 20px;
+    }
+  }
+  &:hover,&.draping {
+    .handle {
+      border-color: $themeColor;
+      .hide-value {
+        opacity: 1;
+        transform: scale(1) translateY(-140%);
+      }      
+    }
+  }
+  &.draping {
+    .handle {
+      box-shadow: 0 0 12px rgba(#000, 0.2);
+    }
+  }
+  &.disabled {
+    .disabled-mask {
+      display: block;
+    }
+  }
+  .disabled-mask {
+    @include fill();
+    z-index: 11;
+    display: none;
+    background-color: rgba(255,255,255,0.2);
+    cursor: not-allowed;
+  }
+  .handle {
+    width: $rangerHandleScale;
+    height: $rangerHandleScale;
+    border-radius: 50%;
+    position: absolute;
+    top: - ($rangerHandleScale - $rangerBgH) / 2;
+    // margin-left: - $rangerHandleScale / 2;
+    z-index: 10;
+    // box-shadow: 0 0 12px rgba(0,0,0,0.3);
+    text-align: center;
+    // position: relative;
+    background-color: #FFF;
+    border: 3px #CCC solid;
+    .hide-value {
+      display: block;
+      position: absolute;
+      // opacity: 0;
+      background-color: #FFF;
+      border-radius: 5px;
+      // color: #FFF;
+      box-shadow: 0 2px 12px rgba(#000, 0.3);
+      padding: 6px 10px;
+      left: - $rangerHandleScale / 2;
+      top: 0;
+      transform: scale(0) translateY(-120%);
+      transition: all 0.2s ease;
+      .caret {
+        $s: 6px;
+        position: absolute;
+        bottom: -$s;
+        left: 0;
+        transform: translateX(50%);
+        color: #FFF;
+        border-width: $s;
+      }
+      .text {
+        display: block;
+      }
+    }
+  }
+  .ranger {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    height: $rangerContentH;
+    width: 100%;
+    cursor: pointer;
+    * {
+      user-select: none;
+    }
+  }
+  .handle-btn {
+    $scale: 22px;
+    width: $rangerContentH;
+    height: $rangerContentH;
+    line-height: $rangerContentH;
+    font-size: 30px;
+    text-align: center;
+  }
+  .all-process {
+    position: relative;
+    width: 100%;
+    height: $rangerBgH;
+    border-radius: $rangerBgH;
+    box-shadow: 0 0 1px rgba(0,0,0,0.3);
+    margin: 0 auto;
+    background-color: #EEE;
+    .active-process {
+      background-color: $themeColor;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      // @include fill();
+    }
+  }
+}
+
+.mobile {
+  .__ranger {
+    width: 100%;
+    display: block;
+  }
+}

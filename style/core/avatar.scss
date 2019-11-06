@@ -1,0 +1,42 @@
+@import '../mixin/index.scss';
+
+$avatarScale: 100px;
+$avatarSmScale: 50px;
+$avatarMiniScale: 24px;
+$imgScale: 80px;
+
+.__avatar {
+  position: relative;
+  display: inline-block;
+}
+.avatar-options {
+  width: 200px;
+  img {
+    padding: 10px;
+    display: inline-block;
+    width: $imgScale;
+    height: $imgScale;
+  }
+}
+
+.avatar {
+  display: inline-block;
+  position: relative;
+  width: $avatarScale;
+  height: $avatarScale;
+  // background-color: #f86270;
+  background-color: $themeColor;
+  border-radius: 50%;
+  color: #FFF;
+  font-size: $avatarScale - 30;
+  line-height: $avatarScale;
+  text-align: center;
+  text-transform: uppercase;
+  @include bgColorAndTextColor;
+  .c {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+}

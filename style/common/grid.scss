@@ -1,0 +1,72 @@
+@import './utils.scss';
+
+.grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex: 1;
+  @include gridCale(12, 'xl');
+  &.space- {
+    &5 {
+      @include paddingForGrid(5);
+    }
+    &10 {
+      @include paddingForGrid(10);
+    }
+    &15 {
+      @include paddingForGrid(15);
+    }
+    &20 {
+      @include paddingForGrid(20);
+    }
+    &25 {
+      @include paddingForGrid(25);
+    }
+    &30 {
+      @include paddingForGrid(30);
+    }
+  }
+  .flex1 {
+    flex: 1;
+  }
+  .g-item {
+    max-width: 100%;
+    // flex-grow: 1;
+    flex-basis: 0;
+  }
+  .g-container {
+    width: 100%;
+  }
+}
+
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
+  .grid {
+    @include gridCale(12, 'xs', true);
+  }  
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+  .grid {
+    @include gridCale(12, 'sm', true);
+  }  
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+  .grid {
+    @include gridCale(12, 'lg', true);
+  }
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+  .grid {
+    @include gridCale(12, 'xl', true);
+  }
+}

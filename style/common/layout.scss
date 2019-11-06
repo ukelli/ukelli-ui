@@ -1,0 +1,50 @@
+@import './spaceing.scss';
+@import './utils.scss';
+
+// TODO: 完善根据屏幕宽度设置 layout
+
+.layout {
+  /* Default layout */
+  $rowUnitMaxWidth: 80px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: flex-start;
+  justify-content: flex-start;
+  @include spaceing();
+  @include gridCale(20, 'row');
+  .flex1 {
+    flex: 1;
+  }
+  /* define justify-content end */
+}
+
+/** 共享一份 flex 的布局机制 */
+.layout,.grid {
+  @include flexUtils;
+}
+
+.flex {
+  flex: 1;
+}
+
+// // Small devices (landscape phones, 576px and up)
+// @media (min-width: 576px) {
+  
+// }
+
+// // Medium devices (tablets, 768px and up)
+// @media (min-width: 768px) {
+  
+// }
+
+// // Large devices (desktops, 992px and up)
+// @media (min-width: 992px) {
+  
+// }
+
+// // Extra large devices (large desktops, 1200px and up)
+// @media (min-width: 1200px) {
+  
+// }

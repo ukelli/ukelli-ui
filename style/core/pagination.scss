@@ -1,0 +1,40 @@
+// @import "../var.scss";
+.pagin-con {
+  padding: 5px 10px;
+  // height: 46px;
+  &.has-pagin {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  @include card();
+  .btns-wrap {
+    margin: 5px 0;
+  }
+  .item-group {
+    display: inline-block;
+  }
+  .input {
+    width: 60px;
+  }
+  .item {
+    display: inline-block;
+    padding: 3px 12px 3px;
+    border: 1px solid #EEE;
+    border-radius: 3px;
+    margin-right: 5px;
+    cursor: pointer;
+    &:hover {
+      background-color: #f8f8f8;
+    }
+    &.active {
+      background-color: $themeColor;
+      border-color: $themeColor;
+      color: #FFF;
+    }
+  }
+}
+// .nopaging {
+//   height: 54px;
+//   display: block;
+// }

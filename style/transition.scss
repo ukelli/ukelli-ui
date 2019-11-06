@@ -1,0 +1,325 @@
+// 每个项目可以自定义各自的动画效果，参考以下实现方式
+
+/**
+ * 动画名称解析
+ * windows   ： container 组件做的页面切换
+ * login     ： 登录
+ * fade      ： 渐变
+ * banner    ： 轮播图
+ * notify    ： 全局提示
+ * tip-award ： 中奖后的全局提示
+ * loading   ： 加载中
+ * modal     ： modal 框
+ * popover   ： popover
+ * toast     ： toast
+ * manager   ： 全局弹出层的 manager
+ */
+
+$fadeTransDuration     : 0.2s;
+$toastransDuration     : 0.2s;
+$popoverTransDuration  : 0.2s;
+$loadingTransDuration  : 200ms;
+$modalTSDuration       : 300ms;
+$dropMenuTSDuration    : 0.2s;
+$notifyTransDuration   : 300ms;
+
+@mixin modal($animateName, $offset: 20px, $duration: $modalTSDuration) {
+  .#{$animateName}-enter {
+    .animate-layout {
+      transform: translateY($offset);
+      opacity: 0;
+    }
+    .section-mark {
+      opacity: 0.01;
+    }
+  }
+
+  .#{$animateName}-enter.#{$animateName}-enter-active {
+    .animate-layout {
+      transform: translateY(0);
+      opacity: 1;
+      transition: all $duration ease;
+    }
+    .section-mark {
+      opacity: 1;
+      transition: opacity $duration ease;
+    }
+  }
+
+  .#{$animateName}-exit {
+    .animate-layout {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .section-mark {
+      opacity: 1;
+    }
+  }
+
+  .#{$animateName}-exit.#{$animateName}-exit-active {
+    .animate-layout {
+      transform: translateY($offset);
+      opacity: 0.01;
+      transition: all $duration ease;
+    }
+    .section-mark {
+      opacity: 0.01;
+      transition: opacity $duration ease;
+    }
+  }
+}
+@mixin sideModal($animateName, $offset: 20px, $duration: $modalTSDuration) {
+  .#{$animateName}-enter {
+    .animate-layout {
+      transform: translateX($offset);
+      opacity: 0;
+    }
+    .section-mark {
+      opacity: 0.01;
+    }
+  }
+
+  .#{$animateName}-enter.#{$animateName}-enter-active {
+    .animate-layout {
+      transform: translateX(0);
+      opacity: 1;
+      transition: all $duration ease;
+    }
+    .section-mark {
+      opacity: 1;
+      transition: opacity $duration ease;
+    }
+  }
+
+  .#{$animateName}-exit {
+    .animate-layout {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    .section-mark {
+      opacity: 1;
+    }
+  }
+
+  .#{$animateName}-exit.#{$animateName}-exit-active {
+    .animate-layout {
+      transform: translateX($offset);
+      opacity: 0.01;
+      transition: all $duration ease;
+    }
+    .section-mark {
+      opacity: 0.01;
+      transition: opacity $duration ease;
+    }
+  }
+}
+
+// modal
+@include modal(modal, 20px);
+@include modal(top-side-modal, -20px);
+@include modal(bottom-side-modal, 20px);
+@include sideModal(right-side-modal, 100px);
+@include sideModal(left-side-modal, -100px);
+
+
+// drop-menu
+.drop-menu-enter {
+  opacity: 0.01;
+  transform: translateY(-5px);
+}
+
+.drop-menu-enter.drop-menu-enter-active {
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform $dropMenuTSDuration ease, opacity $dropMenuTSDuration ease;
+}
+
+.drop-menu-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.drop-menu-exit.drop-menu-exit-active {
+  opacity: 0.01;
+  transform: translateY(-5px);
+  transition: transform $dropMenuTSDuration ease, opacity $dropMenuTSDuration ease;
+}
+
+// notify
+.notify-enter {
+  opacity: 0.01;
+  transform: scale(0);
+}
+
+.notify-enter.notify-enter-active {
+  transform-origin: right top;
+  transform: scale(1);
+  opacity: 1;
+  transition: all $notifyTransDuration ease;
+}
+
+.notify-exit {
+  opacity: 1;
+  // transform: scale(1);
+}
+
+.notify-exit.notify-exit-active {
+  transform-origin: right top;
+  opacity: 0.01;
+  height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden;
+  transition: all $notifyTransDuration ease;
+}
+
+// fade
+.fade-enter {
+  opacity: 0.01;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity $fadeTransDuration ease;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit.fade-exit-active {
+  opacity: 0.01;
+  transition: opacity $fadeTransDuration ease;
+}
+
+// popover
+.popover-enter {
+  opacity: 0.01;
+  transform: rotateX(45deg);
+}
+
+.popover-enter.popover-enter-active {
+  opacity: 1;
+  transform: rotateX(0);
+  transition: all $popoverTransDuration cubic-bezier(.03,.72,.38,.98);
+}
+
+.popover-exit {
+  opacity: 1;
+  transform: rotateX(0);
+}
+
+.popover-exit.popover-exit-active {
+  opacity: 0.01;
+  transform: rotateX(45deg);
+  transition: all $popoverTransDuration cubic-bezier(.03,.72,.38,.98);
+}
+
+// loading
+.loading-enter {
+  opacity: 0.01;
+  .loading-container {
+    position: absolute !important;
+    top: 0;
+  }
+}
+
+.loading-enter.loading-enter-active {
+  opacity: 1;
+  transition: opacity $loadingTransDuration ease;
+  .loading-container {
+    position: absolute !important;
+    top: 0;
+  }
+}
+
+.loading-exit {
+  opacity: 1;
+  .loading-container {
+    position: absolute !important;
+    top: 0;
+  }
+}
+
+.loading-exit.loading-exit-active {
+  opacity: 0.01;
+  transition: opacity $loadingTransDuration ease;
+  .loading-container {
+    position: absolute !important;
+    top: 0;
+  }
+}
+// loading
+// .loading-enter {
+//   opacity: 0.01;
+//   position: absolute !important;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+// }
+
+// .loading-enter.loading-enter-active {
+//   opacity: 1;
+//   transition: opacity $loadingTransDuration ease;
+// }
+
+// .loading-exit {
+//   opacity: 1;
+// }
+
+// .loading-exit.loading-exit-active {
+//   opacity: 0.01;
+//   transition: opacity $loadingTransDuration ease;
+// }
+
+// loading-row
+// .loading-row-enter {
+//   position: absolute !important;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   .loading-container {
+//     opacity: 0.01;
+//   }
+// }
+
+// .loading-row-enter.loading-row-enter-active {
+//   .loading-container {
+//     opacity: 1;
+//   }
+// }
+
+// .loading-row-exit {
+//   .loading-container {
+//     opacity: 1;
+//   }
+// }
+
+// .loading-row-exit.loading-row-exit-active {
+//   .loading-container {
+//     opacity: 0.01;
+//   }
+// }
+
+// toast
+.toast-enter {
+  opacity: 0.01;
+  transform: translateY(-20px);
+}
+
+.toast-enter.toast-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: transform $toastransDuration ease, opacity $toastransDuration ease;
+}
+
+.toast-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast-exit.toast-exit-active {
+  opacity: 0.01;
+  transform: translateY(-45px);
+  transition: transform $toastransDuration ease, opacity $toastransDuration ease;
+}

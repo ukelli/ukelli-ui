@@ -1,0 +1,21 @@
+.datepicker-ranger-content {
+  @include layout();
+  align-items: center;
+}
+.flatpickr {
+  &.input-group {
+    position: relative;
+  }
+  .form-control {
+    min-width: 280px;
+    width: 280px;
+  }
+  .icon {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    // right: 16px;
+    // top: 7px;
+    color: #999;
+  }
+}

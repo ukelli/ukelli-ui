@@ -1,0 +1,35 @@
+$formControlBgColor: #f9f9f9;
+
+.condition-group {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+
+  .title {
+    color: rgba(116, 117, 118, 1);
+    margin-right: 5px;
+    word-break: keep-all;
+  }
+
+  >.item {
+    margin-right: 10px;
+    margin-bottom: 5px;
+    padding-top: 0.01px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &.datetimeRange {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .btn {
+    margin-bottom: 5px;
+  }
+
+  .form-control {
+    margin-left: 5px;
+  }
+}
